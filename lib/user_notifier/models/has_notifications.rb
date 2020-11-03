@@ -29,11 +29,11 @@ module UserNotifier
 
       def create_notification_class
         base_class_name = notification_class_name.demodulize
-        unless self.parent.const_defined?(notification_class_name)
+        unless self.module_parent.const_defined?(notification_class_name)
           klass = Class.new UserNotifier::Base do
             self.table_name = base_class_name.tableize
           end
-          self.parent.const_set base_class_name, klass
+          self.module_parent.const_set base_class_name, klass
 
           source_name = self.table_name.singularize
           if self.model_name.to_s.downcase != UserNotifier.user_class_name.downcase
